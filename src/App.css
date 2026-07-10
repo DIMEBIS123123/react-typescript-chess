@@ -7,17 +7,73 @@
 	height: 100vh;
 	display: flex;
 	justify-content: center;
+	background: center/cover no-repeat url('/background.jpg');
 	align-items: center;
 }
 .board {
-	width: calc(64px * 8);
-	height: calc(64px * 8);
+	position: relative;
+	width: calc(103px * 8);
+	height: calc(103px * 8);
 	display: flex;
+
 	flex-wrap: wrap;
+
+	/* --- СТИЛИЗАЦИЯ "СОЧНОСТИ" --- */
+
+	/* 2.1 Слегка просвечиваем фон (акварель) сквозь доску */
+	opacity: 0.92;
+
+	/* 2.2 Внутреннее свечение для объема */
+	box-shadow: inset 0 0 30px rgba(245, 230, 211, 0.6);
+
+	/* 2.4 Закругленные углы для органичности */
+	border-radius: 8px;
+
+	/* 2.5 Контур (обводка), чтобы отделить от фона */
+	outline: 2px solid rgba(255, 255, 255, 0.4);
+	outline-offset: -2px;
+}
+/* 3. Создаем текстуру "Мятой бумаги/Акварели" поверх доски */
+.board::after {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	pointer-events: none; /* Чтобы не мешала кликать по клеткам */
+	border-radius: 8px;
+
+	/* Генерация шума (замените на картинку текстуры для лучшего эффекта) */
+	background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+	background-size: 300px 300px;
+	opacity: 0.15; /* Очень слабая текстура */
+	mix-blend-mode: multiply; /* Режим наложения для текстуры */
+}
+
+/* 4. Создаем ЦВЕТНУЮ ТЕНЬ (Самый важный пункт для "сочности") */
+.board::before {
+	content: '';
+	position: absolute;
+	top: 25px; /* Смещение тени вниз */
+	left: 15px; /* Смещение тени вправо */
+	width: 100%;
+	height: 100%;
+	z-index: -1; /* Убираем тень за доску */
+	border-radius: 8px;
+
+	/* Цветная тень (фиолетово-коричневая, как на акварели) */
+	background: rgba(65, 45, 60, 0.55);
+
+	/* Размытие тени (создает мягкость) */
+	filter: blur(20px);
+
+	/* Дополнительное растяжение, чтобы тень была чуть шире доски */
+	transform: scale(1.05);
 }
 .cell {
-	width: 64px;
-	height: 64px;
+	width: 103px;
+	height: 103px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
