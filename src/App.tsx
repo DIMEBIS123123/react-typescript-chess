@@ -7,6 +7,7 @@ function App() {
 	const [board, setBoard] = useState(() => {
 		const newBoard = new Board()
 		newBoard.initCells()
+		newBoard.addFigures()
 		return newBoard
 	})
 

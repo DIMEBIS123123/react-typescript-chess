@@ -78,9 +78,31 @@
 	justify-content: center;
 	align-items: center;
 }
+.cell.selected {
+	background-color: rgba(129, 3, 3, 0.452);
+}
+.cell .killable {
+	background: center/cover no-repeat url('/killable.svg');
+	z-index: 10;
+	opacity: 0.5;
+}
+.cell .figure {
+	max-width: 100%;
+	cursor: pointer;
+	transition: all 0.5s;
+}
+.cell .figure:hover {
+	transform: rotate(3deg);
+}
 .black {
 	background-color: #c79151;
 }
 .white {
 	background-color: #eddebe;
+}
+.available {
+	height: 12px;
+	width: 12px;
+	border-radius: 50%;
+	background-color: rgb(1, 107, 1);
 }
