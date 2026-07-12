@@ -53,4 +53,14 @@ export class Board {
 			new Pawn(Colors.BLACK, this.getCell(1, i))
 		}
 	}
+
+	public highlightCells(selectedCell: Cell | null) {
+		for (let y = 0; y < this.cells.length; y++) {
+			const row = this.cells[y]
+			for (let x = 0; x < row.length; x++) {
+				const target = row[x]
+				target.available = selectedCell?.figure?.canMove(target) ? true : false
+			}
+		}
+	}
 }

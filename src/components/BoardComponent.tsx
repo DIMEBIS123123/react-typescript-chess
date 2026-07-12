@@ -10,6 +10,12 @@ interface BoardProps {
 
 const BoardComponent: FC<BoardProps> = ({ board, setBoard }) => {
 	const [selectedCell, setSelectedCell] = useState<Cell | null>(null)
+
+	function highlightCells() {
+		board.highlightCells(selectedCell)
+		setBoard(board)
+	}
+
 	return (
 		<div className='board'>
 			{board.cells.map((row, index) => (
