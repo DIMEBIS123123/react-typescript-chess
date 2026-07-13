@@ -59,7 +59,7 @@ export class Board {
 			const row = this.cells[y]
 			for (let x = 0; x < row.length; x++) {
 				const target = row[x]
-				target.available = selectedCell?.figure?.canMove(target) ? true : false
+				target.available = selectedCell?.figure?.canMove(target) ? true : false //111
 			}
 		}
 	}

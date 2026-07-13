@@ -1,5 +1,5 @@
 import React, { useState, type FC } from 'react'
-import type { Board } from '../models/Board'
+import { Board } from '../models/Board'
 import CellComponent from './CellComponent'
 import type { Cell } from '../models/Cell'
 
@@ -13,7 +13,6 @@ const BoardComponent: FC<BoardProps> = ({ board, setBoard }) => {
 
 	function highlightCells() {
 		board.highlightCells(selectedCell)
-		setBoard(board)
 	}
 
 	return (
