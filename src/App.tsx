@@ -1,19 +1,17 @@
 import { useState } from 'react'
 import './App.css'
 import BoardComponent from './components/BoardComponent'
-import { Board } from './models/Board'
+
+import { createInitialBoard } from './utils/boardInitialization'
 
 function App() {
-	const [board, setBoard] = useState(() => {
-		const newBoard = new Board()
-		newBoard.initCells()
-		newBoard.addFigures()
-		return newBoard
+	const [cells, setCells] = useState(() => {
+		return createInitialBoard()
 	})
 
 	return (
 		<div className='app'>
-			<BoardComponent board={board} setBoard={setBoard}></BoardComponent>
+			<BoardComponent cells={cells} setCells={setCells}></BoardComponent>
 		</div>
 	)
 }

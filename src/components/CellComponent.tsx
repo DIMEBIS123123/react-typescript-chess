@@ -1,11 +1,7 @@
-import React, { type FC } from 'react'
-import type { Cell } from '../models/Cell'
+import { type FC } from 'react'
 
-interface CellProps {
-	cell: Cell
-	selected: boolean
-	onClick: () => void
-}
+import type { CellProps } from '../types'
+import { FIGURE_ASSETS } from '../assets/figureAssets'
 
 const CellComponent: FC<CellProps> = ({ cell, selected, onClick }) => {
 	return (
@@ -13,9 +9,14 @@ const CellComponent: FC<CellProps> = ({ cell, selected, onClick }) => {
 			onClick={onClick}
 			className={['cell', cell.color, selected ? 'selected' : ''].join(' ')}
 		>
-			{cell.available && !cell.figure && <div className='available'> </div>}
-			{cell.available && cell.figure && <div className='killable'> </div>}
-			{cell.figure?.logo && <img src={cell.figure.logo} className='figure' />}
+			{cell.isAvailable && !cell.figure && <div className='available'> </div>}
+			{cell.isAvailable && cell.figure && <div className='killable'> </div>}
+			{cell.figure && (
+				<img
+					src={FIGURE_ASSETS[`${cell.figure.color}-${cell.figure.type}`]}
+					className='figure'
+				/>
+			)}
 		</div>
 	)
 }

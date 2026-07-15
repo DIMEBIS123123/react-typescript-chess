@@ -1,23 +1,16 @@
 import React, { useState, type FC } from 'react'
-import { Board } from '../models/Board'
+
 import CellComponent from './CellComponent'
-import type { Cell } from '../models/Cell'
 
-interface BoardProps {
-	board: Board
-	setBoard: (board: Board) => void
-}
+import { getHighlightedCells } from '../utils/highlightCells'
+import type { BoardProps, CellData } from '../types'
 
-const BoardComponent: FC<BoardProps> = ({ board, setBoard }) => {
-	const [selectedCell, setSelectedCell] = useState<Cell | null>(null)
-
-	function highlightCells() {
-		board.highlightCells(selectedCell)
-	}
+const BoardComponent: FC<BoardProps> = ({ cells, setCells }) => {
+	const [selectedCell, setSelectedCell] = useState<CellData | null>(null)
 
 	return (
 		<div className='board'>
-			{board.cells.map((row, index) => (
+			{cells.map((row, index) => (
 				<React.Fragment key={index}>
 					{row.map(cell => (
 						<CellComponent
@@ -27,6 +20,7 @@ const BoardComponent: FC<BoardProps> = ({ board, setBoard }) => {
 								if (cell.figure) {
 									setSelectedCell(cell)
 								}
+								getHighlightedCells(cells, selectedCell, setCells)
 							}}
 							selected={cell.x === selectedCell?.x && cell.y === selectedCell.y}
 						/>

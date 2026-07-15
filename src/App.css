@@ -94,10 +94,10 @@
 .cell .figure:hover {
 	transform: rotate(3deg);
 }
-.black {
+.BLACK {
 	background-color: #c79151;
 }
-.white {
+.WHITE {
 	background-color: #eddebe;
 }
 .available {
