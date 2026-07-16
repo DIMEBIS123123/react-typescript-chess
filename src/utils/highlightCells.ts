@@ -1,10 +1,7 @@
 import type { CellData } from '../types'
 import { canMove } from './canMove'
 
-export function highlightCells(
-	cells: CellData[][],
-	selectedCell: CellData | null,
-) {
+export function highlightCells(cells: CellData[][], selectedCell: CellData) {
 	return cells.map(row => {
 		return row.map(target => {
 			const shouldBeAvailable = canMove(selectedCell, target) ?? false
@@ -15,12 +12,4 @@ export function highlightCells(
 			return target
 		})
 	})
-}
-export function getHighlightedCells(
-	cells: CellData[][],
-	selectedCell: CellData | null,
-	setCells: (cells: CellData[][]) => void,
-) {
-	const newCells = highlightCells(cells, selectedCell)
-	setCells(newCells)
 }

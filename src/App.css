@@ -77,14 +77,33 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	position: relative;
 }
 .cell.selected {
 	background-color: rgba(129, 3, 3, 0.452);
 }
+@keyframes killable {
+	0% {
+		opacity: 0;
+	}
+
+	50% {
+		opacity: 0.5;
+	}
+
+	100% {
+		opacity: 0;
+	}
+}
 .cell .killable {
 	background: center/cover no-repeat url('/killable.svg');
 	z-index: 10;
-	opacity: 0.5;
+	pointer-events: none;
+	width: 103px;
+	position: absolute;
+	height: 103px;
+	transition: opacity;
+	animation: killable 2s ease-in-out infinite;
 }
 .cell .figure {
 	max-width: 100%;
@@ -103,6 +122,7 @@
 .available {
 	height: 12px;
 	width: 12px;
+	pointer-events: none;
 	border-radius: 50%;
 	background-color: rgb(1, 107, 1);
 }

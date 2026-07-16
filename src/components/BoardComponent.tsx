@@ -2,8 +2,9 @@ import React, { useState, type FC } from 'react'
 
 import CellComponent from './CellComponent'
 
-import { getHighlightedCells } from '../utils/highlightCells'
 import type { BoardProps, CellData } from '../types'
+import { canMove, moveFigure } from '../utils/canMove'
+import { highlightCells } from '../utils/highlightCells'
 
 const BoardComponent: FC<BoardProps> = ({ cells, setCells }) => {
 	const [selectedCell, setSelectedCell] = useState<CellData | null>(null)
@@ -17,10 +18,19 @@ const BoardComponent: FC<BoardProps> = ({ cells, setCells }) => {
 							cell={cell}
 							key={cell.id}
 							onClick={() => {
-								if (cell.figure) {
+								if (
+									selectedCell &&
+									selectedCell !== cell &&
+									canMove(selectedCell, cell)
+								) {
+									const newCells = moveFigure(cells, selectedCell, cell)
+									setCells(newCells)
+									setSelectedCell(null)
+								} else if (cell.figure) {
 									setSelectedCell(cell)
+									const newCells = highlightCells(cells, cell)
+									setCells(newCells)
 								}
-								getHighlightedCells(cells, selectedCell, setCells)
 							}}
 							selected={cell.x === selectedCell?.x && cell.y === selectedCell.y}
 						/>
