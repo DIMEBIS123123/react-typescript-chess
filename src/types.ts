@@ -30,6 +30,7 @@ export interface BoardProps {
 }
 export interface CellProps {
 	cell: CellData
+	selectedCell: CellData | null
 	selected: boolean
 	onClick: () => void
 }

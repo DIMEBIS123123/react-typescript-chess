@@ -21,7 +21,7 @@ const BoardComponent: FC<BoardProps> = ({ cells, setCells }) => {
 								if (
 									selectedCell &&
 									selectedCell !== cell &&
-									canMove(selectedCell, cell)
+									canMove(selectedCell, cell, cells)
 								) {
 									const newCells = moveFigure(cells, selectedCell, cell)
 									setCells(newCells)
@@ -33,6 +33,7 @@ const BoardComponent: FC<BoardProps> = ({ cells, setCells }) => {
 								}
 							}}
 							selected={cell.x === selectedCell?.x && cell.y === selectedCell.y}
+							selectedCell={selectedCell}
 						/>
 					))}
 				</React.Fragment>
