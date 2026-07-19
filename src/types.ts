@@ -17,6 +17,7 @@ export interface CellData {
 	color: Colors
 	figure: FigureData | null
 	isAvailable: boolean
+	isFirstTime?: boolean
 	readonly id: number
 }
 

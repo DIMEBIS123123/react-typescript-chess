@@ -1,6 +1,6 @@
 import type { CellData } from '../types'
 
-function isEmpty(cell: CellData | undefined) {
+export function isEmpty(cell: CellData | undefined) {
 	if (cell) return cell.figure === null
 }
 export function getCell(
@@ -14,7 +14,7 @@ export function isEmptyVertical(
 	selectedCell: CellData,
 	target: CellData,
 	cells?: CellData[][],
-) {
+): boolean {
 	if (selectedCell.x !== target.x) {
 		return false
 	}
@@ -30,7 +30,7 @@ export function isEmptyHorizontal(
 	selectedCell: CellData,
 	target: CellData,
 	cells?: CellData[][],
-) {
+): boolean {
 	if (selectedCell.y !== target.y) {
 		return false
 	}
@@ -39,6 +39,37 @@ export function isEmptyHorizontal(
 	const max = Math.max(selectedCell.x, target.x)
 	for (let x = min + 1; x < max; x++) {
 		if (!isEmpty(getCell(x, selectedCell.y, cells))) return false
+	}
+	return true
+}
+export function isEmptyDiagonal(
+	selectedCell: CellData,
+	target: CellData,
+	cells?: CellData[][],
+): boolean {
+	const absX = Math.abs(target.x - selectedCell.x)
+	const absY = Math.abs(target.y - selectedCell.y)
+	if (absX !== absY) {
+		return false
+	}
+
+	const dx = selectedCell.x < target.x ? 1 : -1
+	const dy = selectedCell.y < target.y ? 1 : -1
+
+	let countX = 0
+	let countY = 0
+
+	const minX = Math.min(selectedCell.x, target.x)
+	const maxX = Math.max(selectedCell.x, target.x)
+	const length = maxX - minX
+
+	for (let x = 1; x < length; x++) {
+		countX += dx
+		countY += dy
+		if (
+			!isEmpty(getCell(selectedCell.x + countX, selectedCell.y + countY, cells))
+		)
+			return false
 	}
 	return true
 }

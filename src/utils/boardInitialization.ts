@@ -22,6 +22,9 @@ export function createInitialBoard(): CellData[][] {
 
 	const place = (x: number, y: number, type: FigureType, color: Colors) => {
 		cells[y][x].figure = { type, color }
+		if (cells[y][x].figure.type === 'pawn') {
+			cells[y][x].isFirstTime = true
+		}
 	}
 
 	// Черные

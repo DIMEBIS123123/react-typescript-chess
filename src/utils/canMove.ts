@@ -1,5 +1,10 @@
 import type { CellData } from '../types'
-import { isEmptyVertical } from './checkAvailability'
+import {
+	isEmptyDiagonal,
+	isEmptyHorizontal,
+	isEmptyVertical,
+} from './checkAvailability'
+import { knightMove, pawnMove } from './knightAndPawnMove'
 
 export function canMove(
 	selectedCell: CellData,
@@ -12,30 +17,45 @@ export function canMove(
 	if (target.figure?.type === 'king') return false
 	// Третья проверка,ПЕШКА:
 	if (selectedCell.figure?.type === 'pawn') {
-		return true
+		if (pawnMove(selectedCell, target, cells)) {
+			return true
+		}
 	}
 	// Четвертая проверка,ЛАДЬЯ:
-	if (selectedCell.figure?.type === 'rook') {
-		return true
+	else if (selectedCell.figure?.type === 'rook') {
+		if (isEmptyVertical(selectedCell, target, cells)) {
+			return true
+		} else if (isEmptyHorizontal(selectedCell, target, cells)) {
+			return true
+		}
 	}
 	// Пятая проверка,СЛОН:
-	if (selectedCell.figure?.type === 'bishop') {
-		return true
+	else if (selectedCell.figure?.type === 'bishop') {
+		if (isEmptyDiagonal(selectedCell, target, cells)) {
+			return true
+		}
 	}
-	// Шестая проверка,РЫЦАРЬ:
-	if (selectedCell.figure?.type === 'knight') {
-		return true
+	// Шестая проверка,КОНЬ:
+	else if (selectedCell.figure?.type === 'knight') {
+		if (knightMove(selectedCell, target)) {
+			return true
+		}
 	}
 	// Седьмая проверка,КОРОЛЕВА:
-	if (selectedCell.figure?.type === 'queen') {
+	else if (selectedCell.figure?.type === 'queen') {
 		if (isEmptyVertical(selectedCell, target, cells)) {
+			return true
+		} else if (isEmptyHorizontal(selectedCell, target, cells)) {
+			return true
+		} else if (isEmptyDiagonal(selectedCell, target, cells)) {
 			return true
 		}
 	}
 	// Восьмая проверка,КОРОЛЬ:
-	if (selectedCell.figure?.type === 'king') {
+	else if (selectedCell.figure?.type === 'king') {
 		return true
 	}
+	return false
 }
 
 export function moveFigure(
