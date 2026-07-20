@@ -1,4 +1,4 @@
-import type { CellData } from '../types'
+import { type CellData } from '../types'
 import {
 	isEmptyDiagonal,
 	isEmptyHorizontal,

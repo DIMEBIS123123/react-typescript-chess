@@ -1,6 +1,6 @@
 import { type FC } from 'react'
 
-import type { CellProps } from '../types'
+import { Colors, type CellProps } from '../types'
 import { FIGURE_ASSETS } from '../assets/figureAssets'
 
 const CellComponent: FC<CellProps> = ({
@@ -12,7 +12,12 @@ const CellComponent: FC<CellProps> = ({
 	return (
 		<div
 			onClick={onClick}
-			className={['cell', cell.color, selected ? 'selected' : ''].join(' ')}
+			className={[
+				'cell',
+				cell.color === Colors.WHITE ? 'white' : 'black',
+				selected ? 'selected' : '',
+				cell.isAvailable ? 'pointer' : '',
+			].join(' ')}
 		>
 			{selectedCell && cell.isAvailable && !cell.figure && (
 				<div className='available'> </div>

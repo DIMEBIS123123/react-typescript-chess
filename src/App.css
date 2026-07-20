@@ -2,38 +2,184 @@
 	margin: 0;
 	padding: 0;
 }
+body {
+	cursor:
+		url('./assets/cursor-default.png') 16 16,
+		auto;
+}
 .app {
 	width: 100vw;
 	height: 100vh;
 	display: flex;
 	justify-content: center;
+	flex-direction: column;
 	background: center/cover no-repeat url('/background.jpg');
 	align-items: center;
 }
+h1 {
+	margin-bottom: 50px;
+	font-family: 'Caveat', cursive;
+}
+.h1-white {
+	color: #eddebe;
+	text-shadow: 2px 2px 5px #3b2a15;
+}
+
+.h1-black {
+	color: #c79151;
+	text-shadow: 2px 2px 5px #eddebe;
+}
+h3 {
+	font-family: 'Caveat', cursive;
+}
+/* =========================================
+   ОБЩИЙ КОНТЕЙНЕР ПОТЕРЯННЫХ ФИГУР
+   ========================================= */
+.lost-figures {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 12px 18px;
+	min-height: 56px;
+	width: 100%;
+	max-width: 824px; /* 103px * 8 — оригинальный размер как потолок */
+	box-sizing: border-box;
+	margin: 20px;
+	border-radius: 4px; /* Слегка скругленные, но не идеально ровные */
+
+	/* Общая текстура бумаги/камня для обоих вариантов */
+	background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");
+
+	transition: all 0.3s ease;
+}
+
+.lost-figures-list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px;
+	align-items: center;
+}
+
+.lost-figure {
+	width: 26px;
+	height: 26px;
+	object-fit: contain;
+	animation: figureAppear 0.4s ease-out;
+}
+
+@keyframes figureAppear {
+	from {
+		opacity: 0;
+		transform: scale(0.5) rotate(-10deg);
+	}
+	to {
+		opacity: 1;
+		transform: scale(1) rotate(0deg);
+	}
+}
+
+/* =========================================
+   СВЕТЛЫЙ ВАРИАНТ (Верхний лагерь / Пергамент)
+   Стиль: Выцветшая карта, дневник Рико
+   ========================================= */
+.lost-figures-white {
+	background-color: #f0e6d3;
+	border: 1px solid rgba(139, 111, 78, 0.3);
+	box-shadow:
+		inset 0 0 20px rgba(139, 111, 78, 0.1),
+		0 2px 8px rgba(60, 45, 35, 0.15);
+}
+
+.lost-figures-white h3 {
+	margin: 0;
+	font-family: 'Caveat', cursive;
+	font-size: 18px;
+	font-weight: 700;
+	color: #6d5a43;
+	letter-spacing: 0.5px;
+	white-space: nowrap;
+
+	/* Эффект выцветших чернил */
+	text-shadow: 0 0 1px rgba(109, 90, 67, 0.3);
+}
+
+.lost-figures-white .lost-figure {
+	filter: sepia(0.3) contrast(1.1) drop-shadow(0 1px 1px rgba(0, 0, 0, 0.2));
+}
+
+/* =========================================
+   ТЁМНЫЙ ВАРИАНТ (Глубина / Сырой камень)
+   Стиль: Пещера, реликвии из глубин
+   ========================================= */
+.lost-figures-black {
+	background-color: #3d3229;
+	border: 1px solid rgba(232, 220, 197, 0.15);
+	box-shadow:
+		inset 0 0 25px rgba(0, 0, 0, 0.4),
+		0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.lost-figures-black h3 {
+	margin: 0;
+	font-family: 'Caveat', cursive;
+	font-size: 18px;
+	font-weight: 700;
+	color: #c4b49a;
+	letter-spacing: 1px;
+	white-space: nowrap;
+
+	/* Легкое свечение, как биолюминесценция в темноте */
+	text-shadow: 0 0 8px rgba(196, 180, 154, 0.3);
+}
+
+.lost-figures-black .lost-figure {
+	filter: brightness(0.9) contrast(1.2)
+		drop-shadow(0 0 3px rgba(196, 180, 154, 0.2));
+}
+
+/* =========================================
+   АДАПТИВ
+   ========================================= */
+@media (max-width: 480px) {
+	.lost-figures {
+		padding: 8px 12px;
+		min-height: 44px;
+		gap: 8px;
+	}
+
+	.lost-figures h3 {
+		font-size: 15px;
+	}
+
+	.lost-figure {
+		width: 20px;
+		height: 20px;
+	}
+}
+/* =========================================
+   ОСНОВНЫЕ СТИЛИ ДОСКИ
+   ========================================= */
+
 .board {
 	position: relative;
-	width: calc(103px * 8);
-	height: calc(103px * 8);
 	display: flex;
-
 	flex-wrap: wrap;
 
+	/* Адаптивность: резиновая ширина с ограничением максимума */
+	width: 100%;
+	max-width: 824px; /* 103px * 8 — оригинальный размер как потолок */
+	aspect-ratio: 1 / 1; /* Доска всегда квадратная */
+	margin: 0 auto; /* Центрирование на больших экранах */
+
 	/* --- СТИЛИЗАЦИЯ "СОЧНОСТИ" --- */
-
-	/* 2.1 Слегка просвечиваем фон (акварель) сквозь доску */
 	opacity: 0.92;
-
-	/* 2.2 Внутреннее свечение для объема */
 	box-shadow: inset 0 0 30px rgba(245, 230, 211, 0.6);
-
-	/* 2.4 Закругленные углы для органичности */
 	border-radius: 8px;
-
-	/* 2.5 Контур (обводка), чтобы отделить от фона */
 	outline: 2px solid rgba(255, 255, 255, 0.4);
 	outline-offset: -2px;
 }
-/* 3. Создаем текстуру "Мятой бумаги/Акварели" поверх доски */
+
+/* Текстура "Мятой бумаги/Акварели" поверх доски */
 .board::after {
 	content: '';
 	position: absolute;
@@ -41,88 +187,141 @@
 	left: 0;
 	width: 100%;
 	height: 100%;
-	pointer-events: none; /* Чтобы не мешала кликать по клеткам */
+	pointer-events: none;
 	border-radius: 8px;
-
-	/* Генерация шума (замените на картинку текстуры для лучшего эффекта) */
 	background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 	background-size: 300px 300px;
-	opacity: 0.15; /* Очень слабая текстура */
-	mix-blend-mode: multiply; /* Режим наложения для текстуры */
+	opacity: 0.15;
+	mix-blend-mode: multiply;
 }
 
-/* 4. Создаем ЦВЕТНУЮ ТЕНЬ (Самый важный пункт для "сочности") */
+/* Цветная тень для объема */
 .board::before {
 	content: '';
 	position: absolute;
-	top: 25px; /* Смещение тени вниз */
-	left: 15px; /* Смещение тени вправо */
+	top: 25px;
+	left: 15px;
 	width: 100%;
 	height: 100%;
-	z-index: -1; /* Убираем тень за доску */
+	z-index: -1;
 	border-radius: 8px;
-
-	/* Цветная тень (фиолетово-коричневая, как на акварели) */
 	background: rgba(65, 45, 60, 0.55);
-
-	/* Размытие тени (создает мягкость) */
 	filter: blur(20px);
-
-	/* Дополнительное растяжение, чтобы тень была чуть шире доски */
 	transform: scale(1.05);
 }
+
+/* =========================================
+   КЛЕТКИ
+   ========================================= */
+
 .cell {
-	width: 103px;
-	height: 103px;
+	/* Адаптивные размеры вместо фиксированных 103px */
+	width: 12.5%; /* 100% / 8 */
+	aspect-ratio: 1 / 1; /* Клетка всегда квадратная */
+	font-family: 'Lora', serif;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	position: relative;
 }
+.cell.pointer {
+	cursor:
+		url('./assets/cursor-hover.png') 16 16,
+		auto;
+}
+
 .cell.selected {
 	background-color: rgba(129, 3, 3, 0.452);
 }
-@keyframes killable {
-	0% {
-		opacity: 0;
-	}
 
-	50% {
-		opacity: 0.5;
-	}
-
-	100% {
-		opacity: 0;
-	}
-}
-.cell .killable {
-	background: center/cover no-repeat url('/killable.svg');
-	z-index: 10;
-	pointer-events: none;
-	width: 103px;
-	position: absolute;
-	height: 103px;
-	transition: opacity;
-	animation: killable 2s ease-in-out infinite;
-}
-.cell .figure {
-	max-width: 100%;
-	cursor: pointer;
-	transition: all 0.5s;
-}
-.cell .figure:hover {
-	transform: rotate(3deg);
-}
-.BLACK {
+.black {
 	background-color: #c79151;
 }
-.WHITE {
+
+.white {
 	background-color: #eddebe;
 }
+
+/* =========================================
+   МАРКЕР ДОСТУПНОГО ХОДА
+   ========================================= */
+
 .available {
-	height: 12px;
-	width: 12px;
+	/* Адаптивный размер относительно клетки */
+	width: 15%;
+	height: 15%;
+	min-width: 8px;
+	min-height: 8px;
+
 	pointer-events: none;
 	border-radius: 50%;
 	background-color: rgb(1, 107, 1);
+}
+
+/* =========================================
+   МАРКЕР KILLABLE (АНИМАЦИЯ)
+   ========================================= */
+
+@keyframes killable {
+	0%,
+	100% {
+		opacity: 0;
+	}
+	50% {
+		opacity: 0.5;
+	}
+}
+
+.cell .killable {
+	/* Адаптивные размеры вместо фиксированных 103px */
+	width: 100%;
+	height: 100%;
+
+	position: absolute;
+	z-index: 10;
+	pointer-events: none;
+
+	background: center/cover no-repeat url('/killable.svg');
+	animation: killable 2s ease-in-out infinite;
+}
+
+/* =========================================
+   ФИГУРЫ
+   ========================================= */
+
+.cell .figure {
+	/* Адаптивные размеры фигур */
+	width: 80%;
+	height: 80%;
+	max-width: none; /* Сброс ограничения из базовых стилей */
+	object-fit: contain;
+
+	cursor:
+		url('./assets/cursor-hover.png') 16 16,
+		auto;
+	transition: all 0.5s;
+}
+
+.cell .figure:hover {
+	transform: rotate(3deg);
+}
+
+/* =========================================
+   АДАПТИВ ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ
+   ========================================= */
+
+@media (max-width: 480px) {
+	.board::before {
+		top: 12px;
+		left: 8px;
+		filter: blur(12px);
+	}
+
+	.board::after {
+		opacity: 0.1;
+	}
+
+	.board {
+		box-shadow: inset 0 0 15px rgba(245, 230, 211, 0.6);
+	}
 }

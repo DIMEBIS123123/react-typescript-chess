@@ -2,11 +2,21 @@ import React, { useState, type FC } from 'react'
 
 import CellComponent from './CellComponent'
 
-import type { BoardProps, CellData } from '../types'
+import { Colors, type BoardProps, type CellData } from '../types'
 import { canMove, moveFigure } from '../utils/canMove'
 import { highlightCells } from '../utils/highlightCells'
+import { swapPlayer } from '../utils/PlayersLogic'
 
-const BoardComponent: FC<BoardProps> = ({ cells, setCells }) => {
+const BoardComponent: FC<BoardProps> = ({
+	cells,
+	setCells,
+	currentPlayer,
+	setCurrentPlayer,
+	lostBlackFigures,
+	setLostBlackFigures,
+	lostWhiteFigures,
+	setLostWhiteFigures,
+}) => {
 	const [selectedCell, setSelectedCell] = useState<CellData | null>(null)
 
 	return (
@@ -24,9 +34,21 @@ const BoardComponent: FC<BoardProps> = ({ cells, setCells }) => {
 									canMove(selectedCell, cell, cells)
 								) {
 									const newCells = moveFigure(cells, selectedCell, cell)
+									if (cell.figure) {
+										if (cell.figure.color === Colors.WHITE) {
+											setLostWhiteFigures([...lostWhiteFigures, cell.figure])
+										} else {
+											setLostBlackFigures([...lostBlackFigures, cell.figure])
+										}
+									}
 									setCells(newCells)
 									setSelectedCell(null)
-								} else if (cell.figure) {
+
+									setCurrentPlayer({ color: swapPlayer(currentPlayer) })
+								} else if (
+									cell.figure &&
+									cell.figure.color === currentPlayer?.color
+								) {
 									setSelectedCell(cell)
 									const newCells = highlightCells(cells, cell)
 									setCells(newCells)

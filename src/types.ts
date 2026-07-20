@@ -20,6 +20,9 @@ export interface CellData {
 	isFirstTime?: boolean
 	readonly id: number
 }
+export interface PlayerData {
+	color: Colors
+}
 
 export interface FigureData {
 	readonly type: FigureType
@@ -28,10 +31,21 @@ export interface FigureData {
 export interface BoardProps {
 	cells: CellData[][]
 	setCells: (cells: CellData[][]) => void
+	currentPlayer: PlayerData
+	setCurrentPlayer: (currentPlayer: PlayerData) => void
+	lostBlackFigures: FigureData[]
+	setLostBlackFigures: (figures: FigureData[]) => void
+	lostWhiteFigures: FigureData[]
+	setLostWhiteFigures: (figures: FigureData[]) => void
 }
 export interface CellProps {
 	cell: CellData
 	selectedCell: CellData | null
 	selected: boolean
 	onClick: () => void
+}
+export interface LostFiguresProps {
+	title: string
+	figures: FigureData[]
+	color: Colors
 }
