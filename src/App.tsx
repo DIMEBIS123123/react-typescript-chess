@@ -5,6 +5,7 @@ import BoardComponent from './components/BoardComponent'
 import { createInitialBoard } from './utils/boardInitialization'
 import { Colors, type FigureData, type PlayerData } from './types'
 import LostFiguresComponent from './components/LostFiguresComponent'
+import Timer from './components/Timer'
 
 function App() {
 	const [cells, setCells] = useState(() => {
@@ -27,6 +28,10 @@ function App() {
 				Текущий игрок:{' '}
 				{currentPlayer.color === Colors.WHITE ? 'Белый' : 'Черный'}
 			</h1>
+			<Timer
+				currentPlayer={currentPlayer}
+				restart={() => setCells(createInitialBoard())}
+			></Timer>
 			<LostFiguresComponent
 				title='Черные потери'
 				figures={lostBlackFigures}

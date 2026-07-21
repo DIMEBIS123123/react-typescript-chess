@@ -49,3 +49,7 @@ export interface LostFiguresProps {
 	figures: FigureData[]
 	color: Colors
 }
+export interface TimerProps {
+	currentPlayer: PlayerData
+	restart: () => void
+}
