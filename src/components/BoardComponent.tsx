@@ -16,8 +16,36 @@ const BoardComponent: FC<BoardProps> = ({
 	setLostBlackFigures,
 	lostWhiteFigures,
 	setLostWhiteFigures,
+	isItStarted,
 }) => {
 	const [selectedCell, setSelectedCell] = useState<CellData | null>(null)
+	function clickOnCell(cell: CellData) {
+		if (!isItStarted) {
+			return
+		}
+		if (
+			selectedCell &&
+			selectedCell !== cell &&
+			canMove(selectedCell, cell, cells)
+		) {
+			const newCells = moveFigure(cells, selectedCell, cell)
+			if (cell.figure) {
+				if (cell.figure.color === Colors.WHITE) {
+					setLostWhiteFigures([...lostWhiteFigures, cell.figure])
+				} else {
+					setLostBlackFigures([...lostBlackFigures, cell.figure])
+				}
+			}
+			setCells(newCells)
+			setSelectedCell(null)
+
+			setCurrentPlayer({ color: swapPlayer(currentPlayer) })
+		} else if (cell.figure && cell.figure.color === currentPlayer?.color) {
+			setSelectedCell(cell)
+			const newCells = highlightCells(cells, cell)
+			setCells(newCells)
+		}
+	}
 
 	return (
 		<div className='board'>
@@ -28,31 +56,7 @@ const BoardComponent: FC<BoardProps> = ({
 							cell={cell}
 							key={cell.id}
 							onClick={() => {
-								if (
-									selectedCell &&
-									selectedCell !== cell &&
-									canMove(selectedCell, cell, cells)
-								) {
-									const newCells = moveFigure(cells, selectedCell, cell)
-									if (cell.figure) {
-										if (cell.figure.color === Colors.WHITE) {
-											setLostWhiteFigures([...lostWhiteFigures, cell.figure])
-										} else {
-											setLostBlackFigures([...lostBlackFigures, cell.figure])
-										}
-									}
-									setCells(newCells)
-									setSelectedCell(null)
-
-									setCurrentPlayer({ color: swapPlayer(currentPlayer) })
-								} else if (
-									cell.figure &&
-									cell.figure.color === currentPlayer?.color
-								) {
-									setSelectedCell(cell)
-									const newCells = highlightCells(cells, cell)
-									setCells(newCells)
-								}
+								clickOnCell(cell)
 							}}
 							selected={cell.x === selectedCell?.x && cell.y === selectedCell.y}
 							selectedCell={selectedCell}

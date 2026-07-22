@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 import BoardComponent from './components/BoardComponent'
 
@@ -6,17 +6,55 @@ import { createInitialBoard } from './utils/boardInitialization'
 import { Colors, type FigureData, type PlayerData } from './types'
 import LostFiguresComponent from './components/LostFiguresComponent'
 import Timer from './components/Timer'
+import { loadGameState, saveGameState } from './utils/storage'
 
 function App() {
 	const [cells, setCells] = useState(() => {
+		const saved = loadGameState()
+		if (saved?.cells) {
+			return saved.cells
+		}
 		return createInitialBoard()
 	})
+	const [whiteTime, setWhiteTime] = useState(
+		() => loadGameState()?.whiteTime ?? 600,
+	)
+	const [blackTime, setBlackTime] = useState(
+		() => loadGameState()?.blackTime ?? 600,
+	)
 
-	const [currentPlayer, setCurrentPlayer] = useState<PlayerData>({
-		color: Colors.WHITE,
+	const [currentPlayer, setCurrentPlayer] = useState<PlayerData>(() => {
+		return (
+			loadGameState()?.currentPlayer ?? {
+				color: Colors.WHITE,
+			}
+		)
 	})
-	const [lostBlackFigures, setLostBlackFigures] = useState<FigureData[]>([])
-	const [lostWhiteFigures, setLostWhiteFigures] = useState<FigureData[]>([])
+	const [isItStarted, setIsItStarted] = useState(false)
+	const [lostBlackFigures, setLostBlackFigures] = useState<FigureData[]>(
+		() => loadGameState()?.lostBlackFigures ?? [],
+	)
+	const [lostWhiteFigures, setLostWhiteFigures] = useState<FigureData[]>(
+		() => loadGameState()?.lostWhiteFigures ?? [],
+	)
+
+	useEffect(() => {
+		saveGameState({
+			cells,
+			blackTime,
+			whiteTime,
+			currentPlayer,
+			lostBlackFigures,
+			lostWhiteFigures,
+		})
+	}, [
+		cells,
+		blackTime,
+		whiteTime,
+		currentPlayer,
+		lostBlackFigures,
+		lostWhiteFigures,
+	])
 
 	return (
 		<div className='app'>
@@ -30,7 +68,20 @@ function App() {
 			</h1>
 			<Timer
 				currentPlayer={currentPlayer}
-				restart={() => setCells(createInitialBoard())}
+				restart={() => {
+					setLostBlackFigures([])
+					setLostWhiteFigures([])
+					setCurrentPlayer({
+						color: Colors.WHITE,
+					})
+					setCells(createInitialBoard())
+				}}
+				isItStarted={isItStarted}
+				setIsItStarted={setIsItStarted}
+				blackTime={blackTime}
+				setBlackTime={setBlackTime}
+				whiteTime={whiteTime}
+				setWhiteTime={setWhiteTime}
 			></Timer>
 			<LostFiguresComponent
 				title='Черные потери'
@@ -46,6 +97,8 @@ function App() {
 				setLostBlackFigures={setLostBlackFigures}
 				lostWhiteFigures={lostWhiteFigures}
 				setLostWhiteFigures={setLostWhiteFigures}
+				isItStarted={isItStarted}
+				setIsItStarted={setIsItStarted}
 			></BoardComponent>
 			<LostFiguresComponent
 				title='Белые потери'

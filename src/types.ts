@@ -37,6 +37,8 @@ export interface BoardProps {
 	setLostBlackFigures: (figures: FigureData[]) => void
 	lostWhiteFigures: FigureData[]
 	setLostWhiteFigures: (figures: FigureData[]) => void
+	isItStarted: boolean
+	setIsItStarted: (arg: boolean) => void
 }
 export interface CellProps {
 	cell: CellData
@@ -52,4 +54,18 @@ export interface LostFiguresProps {
 export interface TimerProps {
 	currentPlayer: PlayerData
 	restart: () => void
+	isItStarted: boolean
+	setIsItStarted: (arg: boolean) => void
+	whiteTime: number
+	blackTime: number
+	setWhiteTime: (arg: number | ((arg: number) => number)) => void
+	setBlackTime: (arg: number | ((arg: number) => number)) => void
+}
+export interface GameState {
+	cells: CellData[][]
+	currentPlayer: PlayerData
+	whiteTime: number
+	blackTime: number
+	lostBlackFigures: FigureData[]
+	lostWhiteFigures: FigureData[]
 }
