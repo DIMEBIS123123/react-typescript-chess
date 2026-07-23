@@ -39,3 +39,24 @@ export function pawnMove(
 		return true
 	}
 }
+export function enPassantCheck(
+	selectedCell: CellData,
+	target: CellData,
+	cells: CellData[][],
+) {
+	const enPassantPawn = getCell(target.x + 1, target.y, cells)
+	const enPassantPawn2 = getCell(target.x - 1, target.y, cells)
+	if (
+		selectedCell.figure?.type === 'pawn' &&
+		Math.abs(target.y - selectedCell.y) === 2 &&
+		enPassantPawn?.figure?.type === 'pawn'
+	) {
+		return true
+	} else if (
+		selectedCell.figure?.type === 'pawn' &&
+		Math.abs(target.y - selectedCell.y) === 2 &&
+		enPassantPawn2?.figure?.type === 'pawn'
+	) {
+		return true
+	}
+}

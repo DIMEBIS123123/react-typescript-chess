@@ -1,13 +1,20 @@
-function zadacha(ransomNote: string, magazine: string) {
-	if (magazine.length < ransomNote.length) {
+function strings(s: string, t: string): boolean {
+	if (s.length != t.length) {
 		return false
 	}
-	for (const c of ransomNote) {
-		if (!magazine.includes(c)) {
+
+	const mapS = new Map()
+	const mapT = new Map()
+
+	for (let i = 0; i < s.length; i++) {
+		if (
+			(mapS.has(s[i]) && mapS.get(s[i]) !== t[i]) ||
+			(mapT.has(t[i]) && mapT.get(t[i]) !== s[i])
+		) {
 			return false
-		} else {
-			magazine = magazine.replace(c, '')
 		}
+		mapS.set(s[i], t[i])
+		mapT.set(t[i], s[i])
 	}
 	return true
 }

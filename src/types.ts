@@ -18,6 +18,7 @@ export interface CellData {
 	figure: FigureData | null
 	isAvailable: boolean
 	isFirstTime?: boolean
+	enPassant?: boolean
 	readonly id: number
 }
 export interface PlayerData {

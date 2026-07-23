@@ -4,7 +4,8 @@ import {
 	isEmptyHorizontal,
 	isEmptyVertical,
 } from './checkAvailability'
-import { knightMove, pawnMove } from './knightAndPawnMove'
+import { kingMove } from './kingMove'
+import { enPassantCheck, knightMove, pawnMove } from './knightAndPawnMove'
 
 export function canMove(
 	selectedCell: CellData,
@@ -53,7 +54,9 @@ export function canMove(
 	}
 	// Восьмая проверка,КОРОЛЬ:
 	else if (selectedCell.figure?.type === 'king') {
-		return true
+		if (kingMove(selectedCell, target)) {
+			return true
+		}
 	}
 	return false
 }
@@ -66,10 +69,24 @@ export function moveFigure(
 	return cells.map(row =>
 		row.map(cell => {
 			if (cell.x === selectedCell.x && cell.y === selectedCell.y) {
+				if (selectedCell.isFirstTime === true) {
+					return { ...cell, figure: null, isFirstTime: false }
+				}
 				return { ...cell, figure: null }
 			}
 			if (cell.x === target.x && cell.y === target.y) {
 				return { ...cell, figure: selectedCell.figure }
+			}
+			if (
+				(cell.x === target.x + 1 && cell.y === target.y) ||
+				(cell.x === target.x - 1 && cell.y === target.y)
+			) {
+				if (enPassantCheck(selectedCell, target, cells)) {
+					return {
+						...cell,
+						enPassant: true,
+					}
+				}
 			}
 			return cell
 		}),

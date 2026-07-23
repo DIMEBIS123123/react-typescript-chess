@@ -6,6 +6,7 @@ import { Colors, type BoardProps, type CellData } from '../types'
 import { canMove, moveFigure } from '../utils/canMove'
 import { highlightCells } from '../utils/highlightCells'
 import { swapPlayer } from '../utils/PlayersLogic'
+import { playMoveSound } from '../utils/sound'
 
 const BoardComponent: FC<BoardProps> = ({
 	cells,
@@ -36,6 +37,7 @@ const BoardComponent: FC<BoardProps> = ({
 					setLostBlackFigures([...lostBlackFigures, cell.figure])
 				}
 			}
+			playMoveSound()
 			setCells(newCells)
 			setSelectedCell(null)
 
