@@ -17,10 +17,18 @@ const CellComponent: FC<CellProps> = ({
 				cell.color === Colors.WHITE ? 'white' : 'black',
 				selected ? 'selected' : '',
 				cell.isAvailable ? 'pointer' : '',
+				cell.enPassant?.isIt ? 'enPassant' : '',
 			].join(' ')}
 		>
 			{selectedCell && cell.isAvailable && !cell.figure && (
-				<div className='available'> </div>
+				<div
+					className={[
+						'available',
+						selectedCell.enPassant?.isIt ? 'enPassant-available' : '',
+					].join(' ')}
+				>
+					{' '}
+				</div>
 			)}
 			{selectedCell && cell.isAvailable && cell.figure && (
 				<div className='killable'> </div>

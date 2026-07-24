@@ -464,3 +464,180 @@ h3 {
 		font-size: 16px;
 	}
 }
+/* =========================================
+   EN PASSANT — Призрачное взятие
+   ========================================= */
+
+/* Базовая подсветка клетки en passant */
+.cell.enPassant {
+	position: relative;
+
+	/* Тонкое внутреннее свечение — пешка «чувствует» возможность */
+	box-shadow: inset 0 0 12px rgba(166, 61, 64, 0.25);
+
+	/* Лёгкая вибрация — напряжение перед ударом */
+	animation: enPassantReady 3s ease-in-out infinite;
+}
+
+/* Тонкая пульсирующая рамка вокруг фигуры */
+.cell.enPassant .figure {
+	filter: drop-shadow(0 0 4px rgba(166, 61, 64, 0.4));
+	animation: enPassantFigureBreath 3s ease-in-out infinite;
+}
+
+/* Маленький индикатор-маркер в углу клетки */
+.cell.enPassant::before {
+	content: '';
+	position: absolute;
+	top: 6px;
+	right: 6px;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+
+	background-color: #a63d40;
+	opacity: 0.7;
+
+	/* Мягкая пульсация маркера */
+	animation: enPassantDotPulse 2s ease-in-out infinite;
+
+	pointer-events: none;
+	z-index: 5;
+}
+
+/* При наведении — подтверждение готовности */
+.cell.enPassant:hover {
+	box-shadow: inset 0 0 18px rgba(166, 61, 64, 0.4);
+	animation: none; /* Останавливаем вибрацию — игрок уже заметил */
+}
+
+.cell.enPassant:hover .figure {
+	filter: drop-shadow(0 0 8px rgba(166, 61, 64, 0.6));
+	animation: none;
+	transform: rotate(3deg) scale(1.05); /* Усиливаем hover-эффект из базовых стилей */
+}
+
+.cell.enPassant:hover::before {
+	opacity: 1;
+	transform: scale(1.3);
+	animation: none;
+	transition: all 0.2s ease;
+}
+
+/* =========================================
+   АНИМАЦИИ
+   ========================================= */
+
+/* Лёгкая вибрация клетки — «напряжение» */
+@keyframes enPassantReady {
+	0%,
+	100% {
+		box-shadow: inset 0 0 10px rgba(166, 61, 64, 0.2);
+	}
+	50% {
+		box-shadow: inset 0 0 16px rgba(166, 61, 64, 0.35);
+	}
+}
+
+/* Дыхание фигуры — живое присутствие */
+@keyframes enPassantFigureBreath {
+	0%,
+	100% {
+		filter: drop-shadow(0 0 3px rgba(166, 61, 64, 0.3));
+	}
+	50% {
+		filter: drop-shadow(0 0 7px rgba(166, 61, 64, 0.55));
+	}
+}
+
+/* Пульсация точки-индикатора */
+@keyframes enPassantDotPulse {
+	0%,
+	100% {
+		opacity: 0.5;
+		transform: scale(0.9);
+	}
+	50% {
+		opacity: 0.9;
+		transform: scale(1.1);
+	}
+}
+
+/* Маркер доступного хода (точка) — делаем её особой */
+.enPassant-available {
+	/* Вместо зелёной точки — призрачный силуэт */
+	background-color: transparent;
+	width: 60%;
+	height: 60%;
+	border-radius: 4px;
+
+	/* Контур в стиле «духа» пешки */
+	border: 2px dashed rgba(166, 61, 64, 0.7);
+
+	/* Мягкое пульсирующее свечение */
+	box-shadow:
+		0 0 8px rgba(166, 61, 64, 0.3),
+		inset 0 0 6px rgba(166, 61, 64, 0.15);
+
+	animation: enPassantPulse 2s ease-in-out infinite;
+}
+
+/* Тонкая линия-указатель к реальной позиции вражеской пешки */
+.cell.enPassant::after {
+	content: '';
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 2px;
+	height: 30%;
+
+	/* Градиент от маркера к краю клетки (где стоит реальная пешка) */
+	background: linear-gradient(to bottom, rgba(166, 61, 64, 0.5), transparent);
+
+	pointer-events: none;
+	animation: enPassantTrailFade 2s ease-in-out infinite;
+}
+
+/* Пульсация маркера */
+@keyframes enPassantPulse {
+	0%,
+	100% {
+		opacity: 0.6;
+		transform: scale(0.9);
+		border-color: rgba(166, 61, 64, 0.5);
+	}
+	50% {
+		opacity: 1;
+		transform: scale(1);
+		border-color: rgba(166, 61, 64, 0.9);
+		box-shadow:
+			0 0 12px rgba(166, 61, 64, 0.5),
+			inset 0 0 8px rgba(166, 61, 64, 0.25);
+	}
+}
+
+/* Мерцание линии-следа */
+@keyframes enPassantTrailFade {
+	0%,
+	100% {
+		opacity: 0.3;
+	}
+	50% {
+		opacity: 0.7;
+	}
+}
+
+/* Hover-эффект: подтверждение действия */
+.enPassant-available:hover {
+	border-style: solid;
+	background-color: rgba(166, 61, 64, 0.15);
+	animation: none; /* Останавливаем пульсацию — пользователь уже понял */
+	transform: scale(1.05);
+	transition: all 0.2s ease;
+}
+
+.cell.enPassant:hover::after {
+	opacity: 0.9;
+	animation: none;
+}

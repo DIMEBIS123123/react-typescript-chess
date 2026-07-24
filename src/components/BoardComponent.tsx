@@ -30,6 +30,7 @@ const BoardComponent: FC<BoardProps> = ({
 			canMove(selectedCell, cell, cells)
 		) {
 			const newCells = moveFigure(cells, selectedCell, cell)
+
 			if (cell.figure) {
 				if (cell.figure.color === Colors.WHITE) {
 					setLostWhiteFigures([...lostWhiteFigures, cell.figure])

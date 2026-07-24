@@ -1,5 +1,6 @@
-import { type CellData } from '../types'
+import { Colors, type CellData } from '../types'
 import {
+	getCell,
 	isEmptyDiagonal,
 	isEmptyHorizontal,
 	isEmptyVertical,
@@ -66,25 +67,47 @@ export function moveFigure(
 	selectedCell: CellData,
 	target: CellData,
 ) {
+	const one = selectedCell.figure?.color === Colors.BLACK ? 1 : -1
 	return cells.map(row =>
 		row.map(cell => {
+			if (cell !== selectedCell && cell.enPassant?.isIt) {
+				return { ...cell, enPassant: { ...cell.enPassant, isIt: false } }
+			}
+			if (
+				selectedCell.enPassant?.isIt &&
+				target.y === selectedCell.y + one &&
+				Math.abs(target.x - selectedCell.x) === 1 &&
+				getCell(target.x, selectedCell.y, cells)?.figure?.type === 'pawn' &&
+				cell.x === target.x &&
+				cell.y == selectedCell.y
+			) {
+				return { ...cell, figure: null }
+			}
 			if (cell.x === selectedCell.x && cell.y === selectedCell.y) {
-				if (selectedCell.isFirstTime === true) {
+				if (selectedCell.isFirstTime) {
 					return { ...cell, figure: null, isFirstTime: false }
+				}
+				if (selectedCell.enPassant?.isIt) {
+					return {
+						...cell,
+						figure: null,
+						enPassant: { ...selectedCell.enPassant, isIt: false },
+					}
 				}
 				return { ...cell, figure: null }
 			}
 			if (cell.x === target.x && cell.y === target.y) {
 				return { ...cell, figure: selectedCell.figure }
 			}
+
 			if (
 				(cell.x === target.x + 1 && cell.y === target.y) ||
 				(cell.x === target.x - 1 && cell.y === target.y)
 			) {
-				if (enPassantCheck(selectedCell, target, cells)) {
+				if (enPassantCheck(selectedCell, target, cells, cell)) {
 					return {
 						...cell,
-						enPassant: true,
+						enPassant: { isIt: true, x: target.x, y: target.y },
 					}
 				}
 			}

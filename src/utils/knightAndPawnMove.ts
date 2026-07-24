@@ -38,24 +38,31 @@ export function pawnMove(
 	) {
 		return true
 	}
+	if (
+		selectedCell.enPassant?.isIt &&
+		target.y === selectedCell.y + one &&
+		Math.abs(target.x - selectedCell.x) === 1 &&
+		getCell(target.x, selectedCell.y, cells)?.figure?.type === 'pawn' &&
+		selectedCell.enPassant.x === target.x &&
+		selectedCell.enPassant.y === selectedCell.y
+	) {
+		return true
+	}
+	return false
 }
 export function enPassantCheck(
 	selectedCell: CellData,
 	target: CellData,
 	cells: CellData[][],
+	cell: CellData,
 ) {
-	const enPassantPawn = getCell(target.x + 1, target.y, cells)
-	const enPassantPawn2 = getCell(target.x - 1, target.y, cells)
+	const enPassantPawn = getCell(cell.x, cell.y, cells)
+
 	if (
 		selectedCell.figure?.type === 'pawn' &&
 		Math.abs(target.y - selectedCell.y) === 2 &&
-		enPassantPawn?.figure?.type === 'pawn'
-	) {
-		return true
-	} else if (
-		selectedCell.figure?.type === 'pawn' &&
-		Math.abs(target.y - selectedCell.y) === 2 &&
-		enPassantPawn2?.figure?.type === 'pawn'
+		enPassantPawn?.figure?.type === 'pawn' &&
+		enPassantPawn?.figure?.color !== selectedCell.figure?.color
 	) {
 		return true
 	}
