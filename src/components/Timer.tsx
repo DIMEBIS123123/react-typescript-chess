@@ -11,16 +11,27 @@ const Timer: FC<TimerProps> = ({
 	setBlackTime,
 	whiteTime,
 	setWhiteTime,
+	setWinner,
 }) => {
 	const timer = useRef<null | ReturnType<typeof setInterval>>(null)
 
 	useEffect(startTimer, [currentPlayer, isItStarted])
 
 	function decrementWhiteTime() {
-		setWhiteTime(prev => prev - 1)
+		setWhiteTime(prev => {
+			if (prev <= 0) {
+				return 0
+			}
+			return prev - 1
+		})
 	}
 	function decrementBlackTime() {
-		setBlackTime(prev => prev - 1)
+		setBlackTime(prev => {
+			if (prev <= 0) {
+				return 0
+			}
+			return prev - 1
+		})
 	}
 	function formatTime(seconds: number): string {
 		const m = Math.floor(seconds / 60)
@@ -43,6 +54,28 @@ const Timer: FC<TimerProps> = ({
 			}
 		}
 	}
+
+	useEffect(() => {
+		if (whiteTime <= 0) {
+			setWinner({ color: Colors.BLACK })
+			if (timer.current !== null) {
+				clearInterval(timer.current)
+				timer.current = null
+			}
+			clearGameState()
+		}
+	}, [whiteTime])
+
+	useEffect(() => {
+		if (blackTime <= 0) {
+			setWinner({ color: Colors.WHITE })
+			if (timer.current !== null) {
+				clearInterval(timer.current)
+				timer.current = null
+			}
+			clearGameState()
+		}
+	}, [blackTime])
 
 	return (
 		<div className='timer-panel'>

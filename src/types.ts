@@ -24,9 +24,12 @@ export interface CellData {
 export interface PlayerData {
 	color: Colors
 }
-
+export interface PromotionState {
+	cell: CellData
+	isIt: boolean
+}
 export interface FigureData {
-	readonly type: FigureType
+	type: FigureType
 	readonly color: Colors
 }
 export interface BoardProps {
@@ -40,6 +43,7 @@ export interface BoardProps {
 	setLostWhiteFigures: (figures: FigureData[]) => void
 	isItStarted: boolean
 	setIsItStarted: (arg: boolean) => void
+	setPromotion: (arg: PromotionState | null) => void
 }
 export interface CellProps {
 	cell: CellData
@@ -61,6 +65,11 @@ export interface TimerProps {
 	blackTime: number
 	setWhiteTime: (arg: number | ((arg: number) => number)) => void
 	setBlackTime: (arg: number | ((arg: number) => number)) => void
+	setWinner: (arg: PlayerData) => void
+}
+export interface WinAlertProps {
+	winner: PlayerData | null
+	restart: () => void
 }
 export interface GameState {
 	cells: CellData[][]
@@ -69,4 +78,9 @@ export interface GameState {
 	blackTime: number
 	lostBlackFigures: FigureData[]
 	lostWhiteFigures: FigureData[]
+	promotion: PromotionState | null
+}
+export interface PromotionComponentState {
+	promotion: PromotionState | null
+	onSelect: (type: FigureType) => void
 }

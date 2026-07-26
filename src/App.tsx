@@ -6,7 +6,9 @@ import { createInitialBoard } from './utils/boardInitialization'
 import { Colors, type FigureData, type PlayerData } from './types'
 import LostFiguresComponent from './components/LostFiguresComponent'
 import Timer from './components/Timer'
-import { loadGameState, saveGameState } from './utils/storage'
+import { clearGameState, loadGameState, saveGameState } from './utils/storage'
+import WinAlertComponent from './components/WinAlertComponent'
+import PromotionComponent from './components/PromotionComponent'
 
 function App() {
 	const [cells, setCells] = useState(() => {
@@ -16,6 +18,9 @@ function App() {
 		}
 		return createInitialBoard()
 	})
+	const [promotion, setPromotion] = useState(
+		() => loadGameState()?.promotion ?? null,
+	)
 	const [whiteTime, setWhiteTime] = useState(
 		() => loadGameState()?.whiteTime ?? 600,
 	)
@@ -30,6 +35,7 @@ function App() {
 			}
 		)
 	})
+	const [winner, setWinner] = useState<PlayerData | null>(null)
 	const [isItStarted, setIsItStarted] = useState(false)
 	const [lostBlackFigures, setLostBlackFigures] = useState<FigureData[]>(
 		() => loadGameState()?.lostBlackFigures ?? [],
@@ -46,6 +52,7 @@ function App() {
 			currentPlayer,
 			lostBlackFigures,
 			lostWhiteFigures,
+			promotion,
 		})
 	}, [
 		cells,
@@ -54,6 +61,7 @@ function App() {
 		currentPlayer,
 		lostBlackFigures,
 		lostWhiteFigures,
+		promotion,
 	])
 
 	return (
@@ -82,6 +90,7 @@ function App() {
 				setBlackTime={setBlackTime}
 				whiteTime={whiteTime}
 				setWhiteTime={setWhiteTime}
+				setWinner={setWinner}
 			></Timer>
 			<LostFiguresComponent
 				title='Черные потери'
@@ -99,12 +108,49 @@ function App() {
 				setLostWhiteFigures={setLostWhiteFigures}
 				isItStarted={isItStarted}
 				setIsItStarted={setIsItStarted}
+				setPromotion={setPromotion}
 			></BoardComponent>
 			<LostFiguresComponent
 				title='Белые потери'
 				figures={lostWhiteFigures}
 				color={Colors.WHITE}
 			></LostFiguresComponent>
+			<WinAlertComponent
+				winner={winner}
+				restart={() => {
+					setLostBlackFigures([])
+					setLostWhiteFigures([])
+					setCurrentPlayer({
+						color: Colors.WHITE,
+					})
+					setCells(createInitialBoard())
+					setWinner(null)
+					setBlackTime(600)
+					setWhiteTime(600)
+					setIsItStarted(true)
+					clearGameState()
+				}}
+			></WinAlertComponent>
+			<PromotionComponent
+				promotion={promotion}
+				onSelect={type => {
+					const newCells = cells.map(row =>
+						row.map(cell => {
+							if (cell.x === promotion?.cell.x && cell.y === promotion.cell.y) {
+								if (promotion.cell.figure)
+									return {
+										...cell,
+										figure: { color: promotion.cell.figure.color, type: type },
+									}
+							}
+							return cell
+						}),
+					)
+					setCells(newCells)
+					setPromotion(null)
+					setIsItStarted(true)
+				}}
+			/>
 		</div>
 	)
 }

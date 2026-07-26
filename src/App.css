@@ -641,3 +641,473 @@ h3 {
 	opacity: 0.9;
 	animation: none;
 }
+/* =========================================
+   БАЗА ОВЕРЛЕЯ (Общая для обоих)
+   ========================================= */
+.victory-overlay {
+	position: fixed;
+	inset: 0;
+	z-index: 100;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	animation: overlayFadeIn 0.6s ease-out;
+}
+
+.victory-card {
+	position: relative;
+	max-width: 440px;
+	width: 90%;
+	padding: 48px 36px;
+	text-align: center;
+	border-radius: 4px;
+	animation: cardReveal 0.8s ease-out 0.2s both;
+}
+
+/* Общая типографика */
+.victory-subtitle {
+	display: block;
+	font-family: 'Lora', serif;
+	font-size: 11px;
+	letter-spacing: 4px;
+	text-transform: uppercase;
+	margin-bottom: 16px;
+}
+
+.victory-title {
+	font-family: 'Caveat', cursive;
+	font-size: 48px;
+	font-weight: 700;
+	line-height: 1.1;
+	margin: 0 0 20px;
+}
+
+.victory-flavor {
+	font-family: 'Lora', serif;
+	font-size: 15px;
+	font-style: italic;
+	line-height: 1.6;
+	margin: 0 0 36px;
+}
+
+.victory-btn {
+	font-family: 'Caveat', cursive;
+	font-size: 22px;
+	font-weight: 700;
+	padding: 12px 32px;
+	background: transparent;
+	border: 1px solid;
+	border-radius: 3px;
+	cursor: pointer;
+	transition: all 0.3s ease;
+}
+
+/* Декоративная внутренняя рамка */
+.victory-border {
+	position: absolute;
+	inset: 10px;
+	border: 1px solid currentColor;
+	pointer-events: none;
+	border-radius: 2px;
+}
+
+/* =========================================
+   ☀️ ПОБЕДА БЕЛЫХ — ПРОРЫВ СВЕТА
+   Тёплый, сияющий, воздушный
+   ========================================= */
+.victory-overlay.white-win {
+	/* Светлый туман, растворяющий тьму */
+	background: rgba(240, 230, 211, 0.7);
+	backdrop-filter: blur(12px);
+}
+
+.victory-white {
+	background-color: #faf6ee;
+	border: 1px solid rgba(196, 170, 120, 0.5);
+
+	/* Двойное свечение: тёплое внешнее + мягкое внутреннее */
+	box-shadow:
+		0 0 80px rgba(240, 220, 180, 0.4),
+		0 0 30px rgba(255, 245, 220, 0.3),
+		inset 0 0 40px rgba(255, 248, 230, 0.5);
+}
+
+.victory-white .victory-border {
+	opacity: 0.15;
+	color: #b89a6a;
+}
+
+.victory-white .victory-subtitle {
+	color: #a08860;
+}
+
+.victory-white .victory-title {
+	color: #4a3c2e;
+	/* Золотистое свечение текста */
+	text-shadow:
+		0 0 20px rgba(220, 190, 130, 0.4),
+		0 2px 4px rgba(180, 150, 100, 0.15);
+}
+
+.victory-white .victory-flavor {
+	color: #7a6650;
+}
+
+.victory-white .victory-btn {
+	color: #4a3c2e;
+	border-color: rgba(74, 60, 46, 0.35);
+}
+
+.victory-white .victory-btn:hover {
+	background: rgba(220, 190, 130, 0.15);
+	border-color: rgba(74, 60, 46, 0.6);
+	box-shadow: 0 0 15px rgba(220, 190, 130, 0.2);
+}
+
+/* Лёгкое дыхание света */
+.victory-white::after {
+	content: '';
+	position: absolute;
+	inset: -20px;
+	border-radius: 8px;
+	background: radial-gradient(
+		ellipse at center,
+		rgba(255, 245, 220, 0.15),
+		transparent 70%
+	);
+	animation: lightBreath 4s ease-in-out infinite;
+	pointer-events: none;
+	z-index: -1;
+}
+
+/* =========================================
+   🌑 ПОБЕДА ЧЁРНЫХ — ПОГЛОЩЕНИЕ БЕЗДНОЙ
+   Холодный, давящий, бесконечный
+   ========================================= */
+.victory-overlay.black-win {
+	/* Густая тьма, почти непрозрачная */
+	background: rgba(10, 8, 7, 0.92);
+	backdrop-filter: blur(6px);
+}
+
+.victory-black {
+	background-color: #1a1614;
+	border: 1px solid rgba(100, 85, 70, 0.2);
+
+	/* Тяжёлая тень вниз + холодное внутреннее давление */
+	box-shadow:
+		0 20px 60px rgba(0, 0, 0, 0.6),
+		0 0 40px rgba(0, 0, 0, 0.4),
+		inset 0 0 50px rgba(0, 0, 0, 0.5);
+}
+
+.victory-black .victory-border {
+	opacity: 0.08;
+	color: #645546;
+}
+
+.victory-black .victory-subtitle {
+	color: #645546;
+}
+
+.victory-black .victory-title {
+	color: #c4b49a;
+	/* Едва заметное призрачное свечение */
+	text-shadow: 0 0 15px rgba(196, 180, 154, 0.15);
+}
+
+.victory-black .victory-flavor {
+	color: #706050;
+}
+
+.victory-black .victory-btn {
+	color: #a09080;
+	border-color: rgba(160, 144, 128, 0.2);
+}
+
+.victory-black .victory-btn:hover {
+	color: #c4b49a;
+	background: rgba(196, 180, 154, 0.06);
+	border-color: rgba(196, 180, 154, 0.35);
+	text-shadow: 0 0 10px rgba(196, 180, 154, 0.2);
+}
+
+/* Медленная пульсация тьмы */
+.victory-black::after {
+	content: '';
+	position: absolute;
+	inset: -30px;
+	border-radius: 8px;
+	background: radial-gradient(
+		ellipse at center,
+		rgba(0, 0, 0, 0.3),
+		transparent 70%
+	);
+	animation: darkPulse 5s ease-in-out infinite;
+	pointer-events: none;
+	z-index: -1;
+}
+
+/* =========================================
+   АНИМАЦИИ
+   ========================================= */
+@keyframes overlayFadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes cardReveal {
+	from {
+		opacity: 0;
+		transform: translateY(20px) scale(0.97);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+/* Светлое дыхание — быстрое, живое */
+@keyframes lightBreath {
+	0%,
+	100% {
+		opacity: 0.4;
+		transform: scale(1);
+	}
+	50% {
+		opacity: 0.8;
+		transform: scale(1.03);
+	}
+}
+
+/* Тёмная пульсация — медленная, тяжёлая */
+@keyframes darkPulse {
+	0%,
+	100% {
+		opacity: 0.3;
+		transform: scale(1);
+	}
+	50% {
+		opacity: 0.6;
+		transform: scale(1.05);
+	}
+}
+
+/* =========================================
+   АДАПТИВ
+   ========================================= */
+@media (max-width: 480px) {
+	.victory-card {
+		padding: 32px 20px;
+	}
+	.victory-title {
+		font-size: 36px;
+	}
+	.victory-flavor {
+		font-size: 13px;
+		margin-bottom: 28px;
+	}
+}
+/* =========================================
+   ОВЕРЛЕЙ ПРЕВРАЩЕНИЯ
+   ========================================= */
+.promotion-overlay {
+	position: fixed;
+	inset: 0;
+	z-index: 90;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	animation: promoFadeIn 0.4s ease-out;
+}
+
+/* Светлая тема (белые) */
+.promotion-white {
+	background: rgba(240, 230, 211, 0.6);
+	backdrop-filter: blur(10px);
+}
+
+/* Тёмная тема (чёрные) */
+.promotion-black {
+	background: rgba(15, 12, 10, 0.85);
+	backdrop-filter: blur(10px);
+}
+
+/* =========================================
+   КАРТОЧКА ВЫБОРА
+   ========================================= */
+.promotion-card {
+	padding: 32px 40px;
+	border-radius: 4px;
+	text-align: center;
+
+	/* Текстура шума */
+	background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E");
+
+	animation: promoCardReveal 0.5s ease-out 0.1s both;
+}
+
+.promotion-white .promotion-card {
+	background-color: #faf6ee;
+	border: 1px solid rgba(184, 154, 106, 0.4);
+	box-shadow:
+		0 0 50px rgba(240, 220, 180, 0.3),
+		inset 0 0 30px rgba(255, 248, 230, 0.4);
+}
+
+.promotion-black .promotion-card {
+	background-color: #1e1a17;
+	border: 1px solid rgba(100, 85, 70, 0.2);
+	box-shadow:
+		0 15px 50px rgba(0, 0, 0, 0.5),
+		inset 0 0 40px rgba(0, 0, 0, 0.4);
+}
+
+/* =========================================
+   ТИПОГРАФИКА
+   ========================================= */
+.promotion-subtitle {
+	display: block;
+	font-family: 'Lora', serif;
+	font-size: 10px;
+	letter-spacing: 4px;
+	text-transform: uppercase;
+	margin-bottom: 8px;
+}
+
+.promotion-white .promotion-subtitle {
+	color: #a08860;
+}
+.promotion-black .promotion-subtitle {
+	color: #645546;
+}
+
+.promotion-title {
+	font-family: 'Caveat', cursive;
+	font-size: 32px;
+	font-weight: 700;
+	margin: 0 0 24px;
+}
+
+.promotion-white .promotion-title {
+	color: #4a3c2e;
+	text-shadow: 0 0 15px rgba(220, 190, 130, 0.3);
+}
+
+.promotion-black .promotion-title {
+	color: #c4b49a;
+	text-shadow: 0 0 12px rgba(196, 180, 154, 0.15);
+}
+
+/* =========================================
+   ВАРИАНТЫ ФИГУР
+   ========================================= */
+.promotion-options {
+	display: flex;
+	gap: 12px;
+	justify-content: center;
+}
+
+.promotion-option {
+	width: 72px;
+	height: 72px;
+	padding: 12px;
+	border-radius: 4px;
+	border: 1px solid transparent;
+	background: transparent;
+	cursor: pointer;
+
+	transition: all 0.25s ease;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.promotion-figure {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+	transition: transform 0.25s ease;
+}
+
+/* --- Hover: белые --- */
+.promotion-white .promotion-option {
+	border-color: rgba(184, 154, 106, 0.2);
+}
+
+.promotion-white .promotion-option:hover {
+	background: rgba(220, 190, 130, 0.12);
+	border-color: rgba(184, 154, 106, 0.5);
+	box-shadow: 0 0 15px rgba(220, 190, 130, 0.2);
+}
+
+.promotion-white .promotion-option:hover .promotion-figure {
+	transform: scale(1.15);
+	filter: drop-shadow(0 0 6px rgba(220, 190, 130, 0.4));
+}
+
+/* --- Hover: чёрные --- */
+.promotion-black .promotion-option {
+	border-color: rgba(100, 85, 70, 0.15);
+}
+
+.promotion-black .promotion-option:hover {
+	background: rgba(196, 180, 154, 0.06);
+	border-color: rgba(196, 180, 154, 0.3);
+	box-shadow: 0 0 15px rgba(196, 180, 154, 0.1);
+}
+
+.promotion-black .promotion-option:hover .promotion-figure {
+	transform: scale(1.15);
+	filter: drop-shadow(0 0 6px rgba(196, 180, 154, 0.25));
+}
+
+/* =========================================
+   АНИМАЦИИ
+   ========================================= */
+@keyframes promoFadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes promoCardReveal {
+	from {
+		opacity: 0;
+		transform: translateY(15px) scale(0.96);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+/* =========================================
+   АДАПТИВ
+   ========================================= */
+@media (max-width: 480px) {
+	.promotion-card {
+		padding: 24px 20px;
+	}
+	.promotion-title {
+		font-size: 26px;
+		margin-bottom: 18px;
+	}
+	.promotion-options {
+		gap: 8px;
+	}
+	.promotion-option {
+		width: 56px;
+		height: 56px;
+		padding: 8px;
+	}
+}

@@ -18,6 +18,8 @@ const BoardComponent: FC<BoardProps> = ({
 	lostWhiteFigures,
 	setLostWhiteFigures,
 	isItStarted,
+	setIsItStarted,
+	setPromotion,
 }) => {
 	const [selectedCell, setSelectedCell] = useState<CellData | null>(null)
 	function clickOnCell(cell: CellData) {
@@ -30,7 +32,16 @@ const BoardComponent: FC<BoardProps> = ({
 			canMove(selectedCell, cell, cells)
 		) {
 			const newCells = moveFigure(cells, selectedCell, cell)
-
+			if (
+				(selectedCell.figure?.type === 'pawn' && cell.y === 7) ||
+				cell.y === 0
+			) {
+				setPromotion({
+					cell: { ...cell, figure: selectedCell.figure },
+					isIt: true,
+				})
+				setIsItStarted(false)
+			}
 			if (cell.figure) {
 				if (cell.figure.color === Colors.WHITE) {
 					setLostWhiteFigures([...lostWhiteFigures, cell.figure])
