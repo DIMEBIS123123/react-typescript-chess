@@ -8,6 +8,7 @@ export function knightMove(selectedCell: CellData, target: CellData) {
 	if ((dx === 2 && dy === 1) || (dy === 2 && dx === 1)) {
 		return true
 	}
+	return false
 }
 export function pawnMove(
 	selectedCell: CellData,

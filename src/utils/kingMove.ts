@@ -6,4 +6,5 @@ export function kingMove(selectedCell: CellData, target: CellData) {
 	if ((dx === 1 || dx === 0) && (dy === 1 || dy === 0)) {
 		return true
 	}
+	return false
 }

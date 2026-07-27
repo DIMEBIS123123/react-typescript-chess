@@ -22,6 +22,7 @@ const BoardComponent: FC<BoardProps> = ({
 	setPromotion,
 }) => {
 	const [selectedCell, setSelectedCell] = useState<CellData | null>(null)
+
 	function clickOnCell(cell: CellData) {
 		if (!isItStarted) {
 			return
@@ -32,9 +33,10 @@ const BoardComponent: FC<BoardProps> = ({
 			canMove(selectedCell, cell, cells)
 		) {
 			const newCells = moveFigure(cells, selectedCell, cell)
+
 			if (
-				(selectedCell.figure?.type === 'pawn' && cell.y === 7) ||
-				cell.y === 0
+				selectedCell.figure?.type === 'pawn' &&
+				(cell.y === 7 || cell.y === 0)
 			) {
 				setPromotion({
 					cell: { ...cell, figure: selectedCell.figure },
