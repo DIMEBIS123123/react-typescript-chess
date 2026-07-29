@@ -1,4 +1,4 @@
-import type { CellData } from '../types'
+import type { CastlingRights, CellData } from '../types'
 
 import {
 	isEmptyDiagonal,
@@ -12,6 +12,7 @@ export function kingThreat(
 	selectedCell: CellData,
 	target: CellData,
 	cells: CellData[][],
+	castlingRights: CastlingRights,
 ) {
 	{
 		// Первая проверка: если своя фигура уже на клетке то нельзя ходить
@@ -55,7 +56,7 @@ export function kingThreat(
 		}
 		// Восьмая проверка,КОРОЛЬ:
 		else if (selectedCell.figure?.type === 'king') {
-			if (kingMove(selectedCell, target)) {
+			if (kingMove(selectedCell, target, castlingRights, cells)) {
 				return true
 			}
 		}
@@ -63,10 +64,14 @@ export function kingThreat(
 	}
 }
 
-export function isKingAttacked(cells: CellData[][], kingCell: CellData | null) {
+export function isKingAttacked(
+	cells: CellData[][],
+	kingCell: CellData | null,
+	castlingRights: CastlingRights,
+) {
 	for (const row of cells) {
 		for (const cell of row) {
-			if (kingThreat(cell, kingCell!, cells)) {
+			if (kingThreat(cell, kingCell!, cells, castlingRights)) {
 				return true
 			}
 		}

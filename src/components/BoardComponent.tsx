@@ -20,6 +20,8 @@ const BoardComponent: FC<BoardProps> = ({
 	isItStarted,
 	setIsItStarted,
 	setPromotion,
+	castlingRights,
+	setCastlingRights,
 }) => {
 	const [selectedCell, setSelectedCell] = useState<CellData | null>(null)
 
@@ -30,9 +32,51 @@ const BoardComponent: FC<BoardProps> = ({
 		if (
 			selectedCell &&
 			selectedCell !== cell &&
-			canMove(selectedCell, cell, cells)
+			canMove(selectedCell, cell, cells, castlingRights)
 		) {
 			const newCells = moveFigure(cells, selectedCell, cell)
+			if (selectedCell.figure?.type === 'king') {
+				if (selectedCell.figure.color === Colors.WHITE) {
+					setCastlingRights({
+						...castlingRights,
+						whiteKingSide: false,
+						whiteQueenSide: false,
+					})
+				} else {
+					setCastlingRights({
+						...castlingRights,
+						blackKingSide: false,
+						blackQueenSide: false,
+					})
+				}
+			}
+			if (selectedCell.figure?.type === 'rook') {
+				if (selectedCell.figure.color === Colors.WHITE) {
+					if (selectedCell.x === 0)
+						setCastlingRights({
+							...castlingRights,
+							whiteQueenSide: false,
+						})
+					else {
+						setCastlingRights({
+							...castlingRights,
+							whiteKingSide: false,
+						})
+					}
+				} else {
+					if (selectedCell.x === 0)
+						setCastlingRights({
+							...castlingRights,
+							blackQueenSide: false,
+						})
+					else {
+						setCastlingRights({
+							...castlingRights,
+							blackKingSide: false,
+						})
+					}
+				}
+			}
 
 			if (
 				selectedCell.figure?.type === 'pawn' &&
@@ -58,7 +102,7 @@ const BoardComponent: FC<BoardProps> = ({
 			setCurrentPlayer({ color: swapPlayer(currentPlayer) })
 		} else if (cell.figure && cell.figure.color === currentPlayer?.color) {
 			setSelectedCell(cell)
-			const newCells = highlightCells(cells, cell)
+			const newCells = highlightCells(cells, cell, castlingRights)
 			setCells(newCells)
 		}
 	}
@@ -84,4 +128,4 @@ const BoardComponent: FC<BoardProps> = ({
 	)
 }
 
-export default BoardComponent
+export default React.memo(BoardComponent)

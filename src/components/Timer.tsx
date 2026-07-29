@@ -82,10 +82,6 @@ const Timer: FC<TimerProps> = ({
 			<button
 				className='restart-btn'
 				onClick={() => {
-					clearGameState()
-					setBlackTime(600)
-					setWhiteTime(600)
-					setIsItStarted(true)
 					restart()
 				}}
 			>
@@ -106,10 +102,6 @@ const Timer: FC<TimerProps> = ({
 			<button
 				className='restart-btn'
 				onClick={() => {
-					setIsItStarted(true)
-					clearGameState()
-					setBlackTime(600)
-					setWhiteTime(600)
 					restart()
 				}}
 			>

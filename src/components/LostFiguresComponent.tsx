@@ -29,4 +29,4 @@ const LostFiguresComponent: FC<LostFiguresProps> = ({
 	)
 }
 
-export default LostFiguresComponent
+export default React.memo(LostFiguresComponent)

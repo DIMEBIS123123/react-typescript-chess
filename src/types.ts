@@ -32,6 +32,12 @@ export interface FigureData {
 	type: FigureType
 	readonly color: Colors
 }
+export interface CastlingRights {
+	whiteKingSide: boolean
+	whiteQueenSide: boolean
+	blackKingSide: boolean
+	blackQueenSide: boolean
+}
 export interface BoardProps {
 	cells: CellData[][]
 	setCells: (cells: CellData[][]) => void
@@ -44,6 +50,10 @@ export interface BoardProps {
 	isItStarted: boolean
 	setIsItStarted: (arg: boolean) => void
 	setPromotion: (arg: PromotionState | null) => void
+	castlingRights: CastlingRights
+	setCastlingRights: (
+		arg: CastlingRights | ((arg: CastlingRights) => CastlingRights),
+	) => void
 }
 export interface CellProps {
 	cell: CellData
@@ -79,6 +89,7 @@ export interface GameState {
 	lostBlackFigures: FigureData[]
 	lostWhiteFigures: FigureData[]
 	promotion: PromotionState | null
+	castlingRights: CastlingRights
 }
 export interface PromotionComponentState {
 	promotion: PromotionState | null
