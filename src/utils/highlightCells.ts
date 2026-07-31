@@ -1,4 +1,5 @@
 import type { CastlingRights, CellData } from '../types'
+import { canCastle } from './canCastle'
 import { canMove } from './canMove'
 
 export function highlightCells(
@@ -9,10 +10,13 @@ export function highlightCells(
 	return cells.map(row => {
 		return row.map(target => {
 			const shouldBeAvailable =
-				canMove(selectedCell, target, cells, castlingRights) ?? false
+				canMove(selectedCell, target, cells) ??
+				canCastle(selectedCell, target, cells, castlingRights) ??
+				false
 			if (target.isAvailable !== shouldBeAvailable) {
 				return { ...target, isAvailable: shouldBeAvailable }
 			}
+
 			return target
 		})
 	})

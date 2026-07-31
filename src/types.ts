@@ -1,6 +1,7 @@
 export enum Colors {
 	WHITE = 'WHITE',
 	BLACK = 'BLACK',
+	GRAY = 'GRAY',
 }
 
 export type FigureType =
@@ -44,9 +45,13 @@ export interface BoardProps {
 	currentPlayer: PlayerData
 	setCurrentPlayer: (currentPlayer: PlayerData) => void
 	lostBlackFigures: FigureData[]
-	setLostBlackFigures: (figures: FigureData[]) => void
+	setLostBlackFigures: (
+		figures: FigureData[] | ((figures: FigureData[]) => FigureData[]),
+	) => void
 	lostWhiteFigures: FigureData[]
-	setLostWhiteFigures: (figures: FigureData[]) => void
+	setLostWhiteFigures: (
+		figures: FigureData[] | ((figures: FigureData[]) => FigureData[]),
+	) => void
 	isItStarted: boolean
 	setIsItStarted: (arg: boolean) => void
 	setPromotion: (arg: PromotionState | null) => void
@@ -54,6 +59,7 @@ export interface BoardProps {
 	setCastlingRights: (
 		arg: CastlingRights | ((arg: CastlingRights) => CastlingRights),
 	) => void
+	setWinner: (arg: PlayerData) => void
 }
 export interface CellProps {
 	cell: CellData

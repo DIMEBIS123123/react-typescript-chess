@@ -847,6 +847,22 @@ h3 {
 	pointer-events: none;
 	z-index: -1;
 }
+.draw-win {
+	background: rgba(100, 100, 100, 0.85);
+}
+
+.victory-draw {
+	background: #2a2a2a;
+	border-color: #666;
+}
+
+.victory-draw .victory-title {
+	color: #aaa;
+}
+
+.victory-draw .victory-flavor {
+	color: #888;
+}
 
 /* =========================================
    АНИМАЦИИ

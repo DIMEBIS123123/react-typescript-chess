@@ -133,6 +133,7 @@ export function useChessGame() {
 			setPromotion,
 			castlingRights,
 			setCastlingRights,
+			setWinner,
 		}),
 		[
 			cells,

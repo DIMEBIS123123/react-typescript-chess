@@ -1,9 +1,4 @@
-import {
-	Colors,
-	type CastlingRights,
-	type CellData,
-	type FigureData,
-} from '../types'
+import { Colors, type CellData, type FigureData } from '../types'
 import {
 	getCell,
 	isEmptyDiagonal,
@@ -19,30 +14,23 @@ export function canMove(
 	selectedCell: CellData,
 	target: CellData,
 	cells: CellData[][],
-	castlightRights: CastlingRights,
 ): boolean {
 	if (selectedCell.figure?.color === target.figure?.color) return false
 
-	const isPseudoLegal = isPseudoLegalMove(
-		selectedCell,
-		target,
-		cells,
-		castlightRights,
-	)
+	const isPseudoLegal = isPseudoLegalMove(selectedCell, target, cells)
 	if (!isPseudoLegal) return false
 
 	const newCells = moveFigure(cells, selectedCell, target)
 	const kingColor = selectedCell.figure!.color
 	const kingAfterMove = findKing(newCells, kingColor)
 
-	return !isKingAttacked(newCells, kingAfterMove, castlightRights)
+	return !isKingAttacked(newCells, kingAfterMove)
 }
 
 function isPseudoLegalMove(
 	selectedCell: CellData,
 	target: CellData,
 	cells: CellData[][],
-	castlightRights: CastlingRights,
 ): boolean {
 	switch (selectedCell.figure?.type) {
 		case 'pawn':
@@ -63,7 +51,7 @@ function isPseudoLegalMove(
 				isEmptyDiagonal(selectedCell, target, cells)
 			)
 		case 'king':
-			return kingMove(selectedCell, target, castlightRights, cells)
+			return kingMove(selectedCell, target)
 		default:
 			return false
 	}
