@@ -117,6 +117,17 @@ export function useChessGame() {
 		},
 		[cells, promotion],
 	)
+	const staleMateTest = () => {
+		const newCells = cells.map(row =>
+			row.map(cell => {
+				if (cell.figure?.type !== 'king' && cell.figure?.type !== 'queen') {
+					return { ...cell, figure: null }
+				}
+				return cell
+			}),
+		)
+		setCells(newCells)
+	}
 
 	const boardProps = useMemo(
 		() => ({
@@ -149,6 +160,7 @@ export function useChessGame() {
 		() => ({
 			currentPlayer,
 			restart,
+			staleMateTest,
 			isItStarted,
 			setIsItStarted,
 			blackTime,

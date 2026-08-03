@@ -127,31 +127,20 @@ function addSlidingTargets(
 
 export type GameResult = 'continue' | 'checkmate' | 'stalemate'
 
-/**
- * Определяет результат партии после завершения хода.
- * Проверяет текущего игрока (того, чей сейчас ход).
- */
 export function checkmateLogic(
 	cells: CellData[][],
 	currentPlayerColor: Colors,
 ): GameResult {
-	// 1. Ищем хотя бы один легальный ход у текущего игрока
 	const hasLegalMove = findAnyLegalMove(cells, currentPlayerColor)
 
-	// 2. Если ходы есть — игра продолжается (даже если шах)
 	if (hasLegalMove) return 'continue'
 
-	// 3. Ходов нет. Разница между матом и патом — только в наличии шаха
 	const king = findKing(cells, currentPlayerColor)
 	const inCheck = isKingAttacked(cells, king)
 
 	return inCheck ? 'checkmate' : 'stalemate'
 }
 
-/**
- * Перебирает все фигуры игрока и их псевдолегальные цели.
- * Возвращает true при первом найденном легальном ходе (ранний выход).
- */
 function findAnyLegalMove(cells: CellData[][], color: Colors): boolean {
 	for (const row of cells) {
 		for (const cell of row) {
@@ -160,12 +149,9 @@ function findAnyLegalMove(cells: CellData[][], color: Colors): boolean {
 			const targets = getPseudoLegalTargets(cell)
 			for (const t of targets) {
 				const targetCell = cells[t.y][t.x]
-				console.log('Таргет и сама клетка и сам массив целей')
-				console.log(targetCell)
-				console.log(cell)
-				console.log(targets)
+
 				if (canMove(cell, targetCell, cells)) {
-					return true // ← Ранний выход! Не проверяем остальные фигуры
+					return true
 				}
 			}
 		}

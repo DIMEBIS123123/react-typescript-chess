@@ -75,10 +75,12 @@ export interface LostFiguresProps {
 export interface TimerProps {
 	currentPlayer: PlayerData
 	restart: () => void
+	staleMateTest: () => void
 	isItStarted: boolean
 	setIsItStarted: (arg: boolean) => void
 	whiteTime: number
 	blackTime: number
+
 	setWhiteTime: (arg: number | ((arg: number) => number)) => void
 	setBlackTime: (arg: number | ((arg: number) => number)) => void
 	setWinner: (arg: PlayerData) => void

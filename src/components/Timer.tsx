@@ -1,10 +1,11 @@
-import React, { useEffect, useRef, type FC } from 'react'
+import React, { useEffect, useRef, useState, type FC } from 'react'
 import { Colors, type TimerProps } from '../types'
 import { clearGameState } from '../utils/storage'
 
 const Timer: FC<TimerProps> = ({
 	currentPlayer,
 	restart,
+	staleMateTest,
 	isItStarted,
 	setIsItStarted,
 	blackTime,
@@ -14,6 +15,7 @@ const Timer: FC<TimerProps> = ({
 	setWinner,
 }) => {
 	const timer = useRef<null | ReturnType<typeof setInterval>>(null)
+	const [staleMateText, setStaleMateText] = useState<boolean>()
 
 	useEffect(startTimer, [currentPlayer, isItStarted])
 
@@ -98,6 +100,20 @@ const Timer: FC<TimerProps> = ({
 				}}
 			>
 				{isItStarted ? '⏸' : '►'}
+			</button>
+			<button
+				className='restart-btn '
+				onClick={() => {
+					staleMateTest()
+				}}
+				onMouseOver={() => {
+					setStaleMateText(true)
+				}}
+				onMouseLeave={() => {
+					setStaleMateText(false)
+				}}
+			>
+				{staleMateText ? 'Сетапчик для теста ничьи' : '!'}
 			</button>
 			<button
 				className='restart-btn'
