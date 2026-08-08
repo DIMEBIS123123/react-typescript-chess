@@ -2,12 +2,13 @@ import React, { type FC } from 'react'
 
 import CellComponent from './CellComponent'
 
-import { type BoardProps } from '../types'
-import { useBoardLogic } from '../hooks/useBoardLogic'
+import { type BoardComponentProps } from '../types'
 
-const BoardComponent: FC<BoardProps> = props => {
-	const { selectedCell, clickOnCell } = useBoardLogic(props)
-
+const BoardComponent: FC<BoardComponentProps> = ({
+	selectedCell,
+	clickOnCell,
+	props,
+}) => {
 	return (
 		<div className='board'>
 			{props.cells.map((row, index) => (

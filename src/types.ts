@@ -61,6 +61,12 @@ export interface BoardProps {
 	) => void
 	setWinner: (arg: PlayerData) => void
 }
+export interface BoardComponentProps {
+	props: BoardProps
+
+	selectedCell: CellData | null
+	clickOnCell: (cell: CellData) => true | undefined
+}
 export interface CellProps {
 	cell: CellData
 	selectedCell: CellData | null
@@ -80,7 +86,7 @@ export interface TimerProps {
 	setIsItStarted: (arg: boolean) => void
 	whiteTime: number
 	blackTime: number
-
+	setSelectedCell: (cell: CellData | null) => void
 	setWhiteTime: (arg: number | ((arg: number) => number)) => void
 	setBlackTime: (arg: number | ((arg: number) => number)) => void
 	setWinner: (arg: PlayerData) => void

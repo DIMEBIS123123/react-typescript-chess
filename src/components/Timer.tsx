@@ -13,6 +13,7 @@ const Timer: FC<TimerProps> = ({
 	whiteTime,
 	setWhiteTime,
 	setWinner,
+	setSelectedCell,
 }) => {
 	const timer = useRef<null | ReturnType<typeof setInterval>>(null)
 	const [staleMateText, setStaleMateText] = useState<boolean>()
@@ -85,6 +86,7 @@ const Timer: FC<TimerProps> = ({
 				className='restart-btn'
 				onClick={() => {
 					restart()
+					setSelectedCell(null)
 				}}
 			>
 				⟳ Перезапустить

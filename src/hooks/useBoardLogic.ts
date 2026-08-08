@@ -6,6 +6,7 @@ import { highlightCells } from '../utils/highlightCells'
 import { swapPlayer } from '../utils/PlayersLogic'
 import { canCastle } from '../utils/canCastle'
 import { checkmateLogic } from '../utils/checkmateLogic'
+import { getCell } from '../utils/checkAvailability'
 
 // hooks/useBoardLogic.ts
 export function useBoardLogic(props: BoardProps) {
@@ -38,7 +39,7 @@ export function useBoardLogic(props: BoardProps) {
 					canCastle(selectedCell, cell, cells, castlingRights))
 			) {
 				const newCells = moveFigure(cells, selectedCell, cell)
-
+				const direction = selectedCell.figure?.color === Colors.BLACK ? 1 : -1
 				// Сброс прав рокировки
 				if (selectedCell.figure?.type === 'king') {
 					if (selectedCell.figure.color === Colors.WHITE) {
@@ -92,6 +93,25 @@ export function useBoardLogic(props: BoardProps) {
 					}
 				}
 
+				if (
+					selectedCell.enPassant?.isIt &&
+					cell.y === selectedCell.y + direction &&
+					Math.abs(cell.x - selectedCell.x) === 1 &&
+					getCell(cell.x, selectedCell.y, cells)?.figure?.type === 'pawn'
+				) {
+					if (selectedCell.figure?.color === Colors.WHITE) {
+						setLostBlackFigures(prev => [
+							...prev,
+							{ type: 'pawn', color: Colors.BLACK },
+						])
+					} else {
+						setLostWhiteFigures(prev => [
+							...prev,
+							{ type: 'pawn', color: Colors.WHITE },
+						])
+					}
+				}
+
 				playMoveSound()
 				setCells(newCells)
 				setSelectedCell(null)
@@ -100,7 +120,6 @@ export function useBoardLogic(props: BoardProps) {
 				if (
 					checkmateLogic(newCells, swapPlayer(currentPlayer)) === 'continue'
 				) {
-					console.log('continue')
 					return true
 				} else if (
 					checkmateLogic(newCells, swapPlayer(currentPlayer)) === 'checkmate'
@@ -111,7 +130,7 @@ export function useBoardLogic(props: BoardProps) {
 								? Colors.BLACK
 								: Colors.WHITE,
 					})
-					console.log('checkmate')
+
 					setIsItStarted(false)
 				} else {
 					console.log('stalemate')
@@ -139,5 +158,5 @@ export function useBoardLogic(props: BoardProps) {
 		],
 	)
 
-	return { selectedCell, clickOnCell }
+	return { selectedCell, setSelectedCell, clickOnCell }
 }

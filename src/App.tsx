@@ -8,6 +8,7 @@ import Timer from './components/Timer'
 import WinAlertComponent from './components/WinAlertComponent'
 import PromotionComponent from './components/PromotionComponent'
 import { useChessGame } from './hooks/useChessGame'
+import { useBoardLogic } from './hooks/useBoardLogic'
 
 function App() {
 	const {
@@ -21,6 +22,8 @@ function App() {
 		lostBlackFigures,
 		lostWhiteFigures,
 	} = useChessGame()
+	const { selectedCell, setSelectedCell, clickOnCell } =
+		useBoardLogic(boardProps)
 
 	return (
 		<div className='app'>
@@ -33,7 +36,7 @@ function App() {
 				{currentPlayer.color === Colors.WHITE ? 'Белый' : 'Черный'}
 			</h1>
 
-			<Timer {...timerProps} />
+			<Timer {...timerProps} setSelectedCell={setSelectedCell} />
 
 			<LostFiguresComponent
 				title='Черные потери'
@@ -41,7 +44,11 @@ function App() {
 				color={Colors.BLACK}
 			/>
 
-			<BoardComponent {...boardProps} />
+			<BoardComponent
+				selectedCell={selectedCell}
+				clickOnCell={clickOnCell}
+				props={boardProps}
+			/>
 
 			<LostFiguresComponent
 				title='Белые потери'
