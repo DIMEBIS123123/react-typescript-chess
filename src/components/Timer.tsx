@@ -130,7 +130,7 @@ const Timer: FC<TimerProps> = ({
 				<div
 					className={`timer-unit timer-black ${currentPlayer?.color === Colors.BLACK ? 'active' : ''}`}
 				>
-					<span className='timer-label'>Чёрные</span>
+					<span className='timer-label'>Черные</span>
 					<span className='timer-value'>{formatTime(blackTime)}</span>
 				</div>
 
