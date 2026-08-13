@@ -1,4 +1,4 @@
-import React, { type FC } from 'react'
+import { type FC } from 'react'
 import { Colors, type FigureType, type PromotionComponentState } from '../types'
 import { FIGURE_ASSETS } from '../assets/figureAssets'
 

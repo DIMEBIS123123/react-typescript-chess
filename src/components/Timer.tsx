@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, type FC } from 'react'
+import { useEffect, useRef, useState, type FC } from 'react'
 import { Colors, type TimerProps } from '../types'
 import { clearGameState } from '../utils/storage'
 

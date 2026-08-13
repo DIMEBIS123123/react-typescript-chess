@@ -1,4 +1,4 @@
-import React, { type FC } from 'react'
+import { type FC } from 'react'
 import { Colors, type WinAlertProps } from '../types'
 
 const WinAlertComponent: FC<WinAlertProps> = ({ winner, restart }) => {
