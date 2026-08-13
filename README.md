@@ -199,6 +199,10 @@
 
 <h2>⌛ Демо-видео проекта</h2>
 
-<a href="https://youtu.be/NLooME-uNaI" target="_blank">
-	<img width="1966" height="1023" alt="demo-video" src="https://github.com/user-attachments/assets/e9760516-05e7-4951-a673-0c2cf57a6429" />
+<a href="https://youtu.be/ED2VGZBkaRc" target="_blank">
+	<img width="1927" height="963" alt="Ссылка на видео" src="https://github.com/user-attachments/assets/ce036d9b-d387-46cc-9e09-42898e2a9678" />
+
+
+
+
 </a>
