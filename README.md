@@ -1,5 +1,6 @@
 <h1 align="center">💫 React Made In Abyss Chess</h1>
 
+<h6 align="center">Сам проект: ♥️https://dimebis-mia-chess.netlify.app♥️</h6>
 <h6 align="center">♥️ Демо-ролик проекта можно посмотреть в самом низу! ♥️</h6>
 
 <p>
